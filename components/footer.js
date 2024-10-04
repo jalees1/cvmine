@@ -2,7 +2,7 @@ import { Facebook, Twitter, Instagram, Linkedin, ChevronsRight } from 'lucide-re
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f5f5f5] py-10">
+    <footer className="bg-[#ffffff] py-10">
       <div className="container mx-auto flex flex-col md:flex-row pt-20">
         <div className="w-full md:w-[57%] px-4 md:px-0">
           <h2 className="text-md font-semibold mb-2">About CVMine™</h2>
