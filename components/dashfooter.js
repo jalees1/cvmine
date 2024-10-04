@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 export default function DashFooter() {
   return (
-    <footer className="w-full border-t border-gray-200 bg-[#f5f5f5] py-1 px-6">
+    <footer className="w-full border-t border-gray-200 bg-[#f5f5f5] py-4 px-6">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-        <div className="flex space-x-4 mb-2 sm:mb-0">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-2 sm:mb-0">
           <Link href="/terms" className="text-sm text-[#1c1c80] hover:text-gray-900">
             Terms of use
           </Link>
@@ -12,7 +12,7 @@ export default function DashFooter() {
             Privacy policy
           </Link>
         </div>
-        <div className="text-sm text-[#1c1c80]">
+        <div className="text-sm text-[#1c1c80] text-center sm:text-right">
           <span>CVMine is a social initiative of </span>
           <Link href="https://talentmicro.com" className="font-semibold hover:text-gray-900">
             TalentMicro

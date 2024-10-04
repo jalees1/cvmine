@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export default function TopNavbar() {
   return (
-    <nav className="bg-[#0d63ae] text-white py-3 px-6 flex justify-between items-center">
+    <nav className="bg-[#0d63ae] text-white py-3 px-6  justify-between items-center hidden md:flex">
       <div className="flex space-x-3">
         <a href="#" className="hover:text-[#FF6600] transition-colors p-1 rounded-full border border-white hover:border-[#FF6600]">
           <Facebook size={12} />
@@ -56,45 +56,3 @@ export default function TopNavbar() {
     </nav>
   )
 }
-
-// import { Button } from './ui/Button'; // Adjust the path as necessary
-
-// export default function TopNavbar() {
-//   return (
-//     <div className="hidden md:flex justify-between items-center bg-blue-500 text-white p-1 text-xs font-poppins border-b border-dashed border-orange-400">
-//       {/* Left side: Social media icons */}
-//       <div className="flex space-x-2">
-//         <a href="https://facebook.com" className="hover:underline">FB</a>
-//         <a href="https://twitter.com" className="hover:underline">TW</a>
-//         <a href="https://linkedin.com" className="hover:underline">IN</a>
-//       </div>
-
-//       {/* Right side: Employer button and dropdowns */}
-//       <div className="flex items-center space-x-3">
-//         {/* Employer Button */}
-//         <Button variant="primary" className="px-3 py-1 text-xs">Employer</Button>
-
-//         {/* Country Select (no border, down arrow only) */}
-//         <div className="relative flex items-center">
-//           <select className="appearance-none bg-transparent text-white text-xs pr-4">
-//             <option value="us">cuba</option>
-//             <option value="uk">italy</option>
-//             <option value="in">India</option>
-//           </select>
-//           <span className="absolute right-0 pr-1 pointer-events-none text-xs">▼</span> {/* Down arrow closer */}
-//         </div>
-
-//         {/* Language Select (no border, down arrow only) */}
-//         <div className="relative flex items-center">
-//           <select className="appearance-none bg-transparent text-white text-xs pr-4">
-//             <option value="en">English</option>
-//             <option value="fr">French</option>
-//             <option value="es">Spanish</option>
-//           </select>
-//           <span className="absolute right-0 pr-1 pointer-events-none text-xs">▼</span> {/* Down arrow closer */}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-     

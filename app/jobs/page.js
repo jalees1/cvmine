@@ -24,7 +24,7 @@ const JobListingInterface = () => {
     {
       company: 'Quess Corp',
       logo: 'https://via.placeholder.com/40',
-      title: 'operator',
+      title: 'Operator',
       id: 'CVM/QGS/354738',
       experience: '0 - 2 years',
       salary: 'INR 12500.00 - 17500.00 Per Month',
@@ -50,14 +50,14 @@ const JobListingInterface = () => {
           </div>
         </div>
         <select
-          className="p-2 border rounded"
+          className="p-2 border rounded flex-shrink-0"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
           <option value="All">All Roles</option>
         </select>
         <select
-          className="p-2 border rounded"
+          className="p-2 border rounded flex-shrink-0"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         >
@@ -103,11 +103,11 @@ const JobListingInterface = () => {
         </div>
 
         <div className="md:w-3/4">
-          <h2 className="text-xl font-bold mb-4">Showing 02 Results</h2>
+          <h2 className="text-xl font-bold mb-4">Showing {jobs.length} Results</h2>
           {jobs.map((job, index) => (
             <div 
               key={index} 
-              className="relative border-l-4 border-orange-500 rounded p-4 mb-4 bg-white hover:bg-gray-50 hover:shadow-lg transform transition-transform duration-300  hover:scale-105 cursor-pointer">
+              className="relative border-l-4 border-orange-500 rounded p-4 mb-4 bg-white hover:bg-gray-50 hover:shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer">
               <div className="flex justify-between items-start">
                 <div className="flex items-center">
                   <img src={job.logo} alt={job.company} className="w-10 h-10 mr-4" />

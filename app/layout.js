@@ -1,15 +1,22 @@
 // app/layout.js
-
-import Footer from '@/components/footer';
+import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import './globals.css'; 
 import DashFooter from '@/components/dashfooter';
+import TopNavbar from '@/components/TopNavbar';
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <body>
         {/* Navbar is fixed across all pages */}
+       
+        
+        <TopNavbar />
+    
         <Navbar />
 
         
