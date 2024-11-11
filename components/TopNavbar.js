@@ -1,8 +1,6 @@
-
-
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +10,22 @@ export default function TopNavbar() {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
+  // Create a memoized array of unique languages
+  const uniqueLanguages = useMemo(() => {
+    const uniqueEntries = new Map();
+    
+    countryLanguageList.forEach((item) => {
+      if (!uniqueEntries.has(item.languageCode)) {
+        uniqueEntries.set(item.languageCode, {
+          languageCode: item.languageCode,
+          language: item.language
+        });
+      }
+    });
+    
+    return Array.from(uniqueEntries.values());
+  }, []);
 
   const handleLanguageTranslation = (languageCode) => {
     const selectLanguage = document.querySelector(".goog-te-combo");
@@ -30,7 +44,7 @@ export default function TopNavbar() {
 
   const handleCountryChange = (countryCode) => {
     setSelectedCountry(countryCode);
-    localStorage.setItem("countryId", countryCode); // Store country selection
+    localStorage.setItem("countryId", countryCode);
     const country = countryLanguageList.find((item) => item.countryCode === countryCode);
     if (country) {
       const defaultLanguage = country.languageCode;
@@ -50,7 +64,7 @@ export default function TopNavbar() {
         const country = countryLanguageList.find((item) => item.countryCode === userCountryCode);
         if (country) {
           setSelectedCountry(userCountryCode);
-          localStorage.setItem("countryId", userCountryCode); // Store detected country
+          localStorage.setItem("countryId", userCountryCode);
           setSelectedLanguage(country.languageCode);
           handleLanguageChange(country.languageCode);
         }
@@ -59,7 +73,6 @@ export default function TopNavbar() {
     xhr.send();
   };
 
-  // Load Google Translate script
   useEffect(() => {
     const googleTranslateInit = () => {
       new window.google.translate.TranslateElement(
@@ -106,14 +119,12 @@ export default function TopNavbar() {
     }
   }, []);
 
-  // Apply translation when script is loaded
   useEffect(() => {
     if (selectedLanguage && isScriptLoaded) {
       handleLanguageTranslation(selectedLanguage);
     }
   }, [selectedLanguage, isScriptLoaded]);
 
-  // Load stored language and country from local storage on mount
   useEffect(() => {
     const storedLanguage = localStorage.getItem("lngId");
     const storedCountry = localStorage.getItem("countryId");
@@ -126,7 +137,6 @@ export default function TopNavbar() {
       setSelectedLanguage(storedLanguage);
       handleLanguageTranslation(storedLanguage);
     } else if (!storedCountry) {
-      // Only fetch location if neither country nor language is stored
       fetchUserLocation();
     }
   }, []);
@@ -179,7 +189,7 @@ export default function TopNavbar() {
               <SelectValue placeholder="Select Language" />
             </SelectTrigger>
             <SelectContent className="bg-white">
-              {countryLanguageList.map((item) => (
+              {uniqueLanguages.map((item) => (
                 <SelectItem
                   key={item.languageCode}
                   value={item.languageCode}
@@ -197,6 +207,204 @@ export default function TopNavbar() {
     </nav>
   );
 }
+
+// "use client";
+
+// import React, { useState, useEffect } from "react";
+// import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// import { countryLanguageList } from "@/data/countryLanguageData";
+
+// export default function TopNavbar() {
+//   const [selectedLanguage, setSelectedLanguage] = useState("");
+//   const [selectedCountry, setSelectedCountry] = useState("");
+//   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
+//   const handleLanguageTranslation = (languageCode) => {
+//     const selectLanguage = document.querySelector(".goog-te-combo");
+//     if (selectLanguage) {
+//       selectLanguage.value = languageCode;
+//       selectLanguage.dispatchEvent(new Event("change"));
+//     }
+//   };
+
+//   const handleLanguageChange = (languageCode) => {
+//     setSelectedLanguage(languageCode);
+//     localStorage.setItem("lngId", languageCode);
+//     document.cookie = `googtrans=/en/${languageCode.toLowerCase()}`;
+//     window.location.reload();
+//   };
+
+//   const handleCountryChange = (countryCode) => {
+//     setSelectedCountry(countryCode);
+//     localStorage.setItem("countryId", countryCode); // Store country selection
+//     const country = countryLanguageList.find((item) => item.countryCode === countryCode);
+//     if (country) {
+//       const defaultLanguage = country.languageCode;
+//       setSelectedLanguage(defaultLanguage);
+//       handleLanguageChange(defaultLanguage);
+//     }
+//   };
+
+//   const fetchUserLocation = () => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.open("GET", "https://ipinfo.io/?token=f411bffc738445", true);
+//     xhr.responseType = "json";
+//     xhr.onload = () => {
+//       if (xhr.status === 200) {
+//         const response = xhr.response;
+//         const userCountryCode = response.country;
+//         const country = countryLanguageList.find((item) => item.countryCode === userCountryCode);
+//         if (country) {
+//           setSelectedCountry(userCountryCode);
+//           localStorage.setItem("countryId", userCountryCode); // Store detected country
+//           setSelectedLanguage(country.languageCode);
+//           handleLanguageChange(country.languageCode);
+//         }
+//       }
+//     };
+//     xhr.send();
+//   };
+
+//   // Load Google Translate script
+//   useEffect(() => {
+//     const googleTranslateInit = () => {
+//       new window.google.translate.TranslateElement(
+//         { pageLanguage: "en" },
+//         "google_translate_element"
+//       );
+
+//       const style = document.createElement("style");
+//       style.innerHTML = `
+//         .goog-te-banner-frame.skiptranslate,
+//         .goog-te-menu-frame,
+//         .goog-te-gadget,
+//         .goog-te-combo { 
+//           color: white !important;
+//         }
+//         iframe.goog-te-banner-frame { display: none !important; }
+//       `;
+//       document.head.appendChild(style);
+
+//       return () => {
+//         document.head.removeChild(style);
+//       };
+//     };
+
+//     if (typeof window !== "undefined" && !window.google?.translate) {
+//       const script = document.createElement("script");
+//       script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateInit";
+//       script.async = true;
+//       script.id = "google-translate-script";
+//       script.onload = () => setIsScriptLoaded(true);
+//       document.body.appendChild(script);
+
+//       window.googleTranslateInit = googleTranslateInit;
+
+//       return () => {
+//         const scriptElement = document.getElementById("google-translate-script");
+//         if (scriptElement) {
+//           document.body.removeChild(scriptElement);
+//         }
+//         delete window.googleTranslateInit;
+//       };
+//     } else {
+//       googleTranslateInit();
+//     }
+//   }, []);
+
+//   // Apply translation when script is loaded
+//   useEffect(() => {
+//     if (selectedLanguage && isScriptLoaded) {
+//       handleLanguageTranslation(selectedLanguage);
+//     }
+//   }, [selectedLanguage, isScriptLoaded]);
+
+//   // Load stored language and country from local storage on mount
+//   useEffect(() => {
+//     const storedLanguage = localStorage.getItem("lngId");
+//     const storedCountry = localStorage.getItem("countryId");
+
+//     if (storedCountry) {
+//       setSelectedCountry(storedCountry);
+//     }
+
+//     if (storedLanguage) {
+//       setSelectedLanguage(storedLanguage);
+//       handleLanguageTranslation(storedLanguage);
+//     } else if (!storedCountry) {
+//       // Only fetch location if neither country nor language is stored
+//       fetchUserLocation();
+//     }
+//   }, []);
+
+//   return (
+//     <nav className="bg-[#0d63ae] text-white py-3 px-6 justify-between items-center hidden md:flex">
+//       <div className="flex space-x-3">
+//         <a href="#" className="hover:text-[#FF6600] transition-colors p-1 rounded-full border border-white hover:border-[#FF6600]">
+//           <Facebook size={12} />
+//         </a>
+//         <a href="#" className="hover:text-[#FF6600] transition-colors p-1 rounded-full border border-white hover:border-[#FF6600]">
+//           <Twitter size={12} />
+//         </a>
+//         <a href="#" className="hover:text-[#FF6600] transition-colors p-1 rounded-full border border-white hover:border-[#FF6600]">
+//           <Instagram size={12} />
+//         </a>
+//         <a href="#" className="hover:text-[#FF6600] transition-colors p-1 rounded-full border border-white hover:border-[#FF6600]">
+//           <Linkedin size={12} />
+//         </a>
+//       </div>
+
+//       <div className="flex items-center space-x-3 notranslate">
+//         <Button 
+//           variant="outline" 
+//           size="sm" 
+//           className="bg-white text-[#FF6600] border-[#FF6600] hover:bg-[#FF6600] hover:text-white transition-colors text-sm py-1 px-4 h-8"
+//         >
+//           Employers
+//         </Button>
+//         <div className="flex items-center space-x-2">
+//           <Select value={selectedCountry} onValueChange={handleCountryChange} className="notranslate">
+//             <SelectTrigger className="w-[90px] h-8 text-xs text-white border-none bg-[#0d63ae] hover:bg-[#3b5998] transition-colors">
+//               <SelectValue placeholder="Country" />
+//             </SelectTrigger>
+//             <SelectContent className="bg-white">
+//               {countryLanguageList.map((item) => (
+//                 <SelectItem
+//                   key={item.countryCode}
+//                   value={item.countryCode}
+//                   className="text-gray-500 hover:text-white hover:bg-[#0d63ae] transition-all"
+//                 >
+//                   {item.countryName}
+//                 </SelectItem>
+//               ))}
+//             </SelectContent>
+//           </Select>
+
+//           <Select value={selectedLanguage} onValueChange={handleLanguageChange} className="NoTranslate">
+//             <SelectTrigger className="w-[90px] h-8 text-xs text-white border-none bg-[#0d63ae] hover:bg-[#3b5998] transition-colors">
+//               <SelectValue placeholder="Select Language" />
+//             </SelectTrigger>
+//             <SelectContent className="bg-white">
+//               {countryLanguageList.map((item) => (
+//                 <SelectItem
+//                   key={item.languageCode}
+//                   value={item.languageCode}
+//                   className="text-gray-500 hover:text-white hover:bg-[#0d63ae] transition-all"
+//                 >
+//                   {item.language}
+//                 </SelectItem>
+//               ))}
+//             </SelectContent>
+//           </Select>
+//         </div>
+//       </div>
+
+//       <div id="google_translate_element" style={{ display: "none" }}></div>
+//     </nav>
+//   );
+// }
 // // // // perfect working without rendering error 
 // "use client";
 
