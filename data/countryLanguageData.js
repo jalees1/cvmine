@@ -31,4 +31,5 @@ export const countryLanguageList = [
   { countryCode: "AR", countryName: "Argentina", language: "Spanish", languageCode: "es" },
   { countryCode: "MX", countryName: "Mexico", language: "Spanish", languageCode: "es" },
   { countryCode: "PT", countryName: "Portugal", language: "Portuguese", languageCode: "pt" },
+  { countryCode: "SG", countryName: "Singapore", language: "Malay", languageCode: "ms" }
 ];
