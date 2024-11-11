@@ -14,3 +14,11 @@ body {
 }
 
 
+.translate-element .goog-te-banner-frame.skiptranslate {
+    display: none !important;
+  }
+  .translate-element .goog-te-gadget {
+    display: inline-block !important;
+    vertical-align: middle;
+  }
+  
